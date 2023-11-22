@@ -6,14 +6,34 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-
-export default function TodoItem({ todo ,deleteTodo, checkTodo}) {
+import { Input } from '@mui/material';
+import { useState } from 'react';
+export default function TodoItem({ todo ,deleteTodo, checkTodo, editTodo}) {
     // TodoList에서 생성된 initialData array를 하나씩 {todo}로 받아와
     // TodoItem 컴포넌트를 생성한다.
     
     // 기본적으로 labelId는 고유한 값을 가져야 하기때문에, 아래와같이 적용해 준다.
     const labelId = `checkbox-list-label-${todo.id}`;
 
+
+    // edit 모드를 설정한다.
+    const [editing, setEditing] = useState(false);
+    // view 모드를 설정한다.
+    let viewMode = {};
+    let editMode = {};
+    if(editing) {
+        viewMode.display = 'none';
+    } else{
+        editMode.display = 'none';
+    }
+    const handleEditing = () =>{
+        setEditing(!editing);
+    }
+    const handleEditingEnd = (event) =>{
+        if(event.key === 'Enter') {
+            setEditing(false);
+        }
+    };
     return (
         // ListItem을 이용하여 배치를 잡아주고, 
         // 아이템 내부에 체크박스<Checkbox>, 삭제버튼<DeleteIcon>, 수정버튼<EditIcon>을 배치한다.
@@ -30,8 +50,8 @@ export default function TodoItem({ todo ,deleteTodo, checkTodo}) {
                 </IconButton>
             }
             disablePadding >
-
-            <ListItemButton role={undefined} dense>
+               
+            <ListItemButton role={undefined} dense >
                 <ListItemIcon>
                 <Checkbox
                         edge="start"
@@ -42,12 +62,17 @@ export default function TodoItem({ todo ,deleteTodo, checkTodo}) {
                         onChange={(e) => checkTodo(todo.id)}
                     />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={todo.text} />
-                <IconButton aria-label="edit">
+                <ListItemText id={labelId} primary={todo.text}  style={viewMode}/>
+                <Input
+                defaultValue={todo.text}  
+                style={editMode}
+                onChange={(e) => editTodo(e.target.value, todo.id)}
+                onKeyDown={handleEditingEnd}/>
+                <IconButton aria-label="edit" onClick={handleEditing}  >
                     <EditIcon id={labelId} />
                 </IconButton>
             </ListItemButton>
-
+           
         </ListItem>
     );
 }

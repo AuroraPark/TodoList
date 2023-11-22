@@ -59,6 +59,17 @@ export default function TodoList() {
         });
     }
 
+    // TodoItem 수정 기능 추가
+    const editTodo = (text, id) => {
+        setTodos((prevTodos) => {
+            return prevTodos.map((t) => {
+                if (t.id === id) {
+                    return {...t, text: text };
+                }
+                return t;
+            })
+        });
+    }
     return (
         // Material UI의 List를 이용하여 쉽게 리스트를 가지고옴.
         // map을 이용하여 todos의 array를 하나씩 불러와 TodoItem으로 보내준다.
@@ -74,7 +85,8 @@ export default function TodoList() {
             {todos.map((todo) =>
                 <TodoItem key={todo.id} todo={todo}
                     deleteTodo={() => deleteTodo(todo.id)}
-                    checkTodo={() => checkTodo(todo.id)} />
+                    checkTodo={() => checkTodo(todo.id)}
+                    editTodo={editTodo} />
             )}
         </List>
         </>
