@@ -1,18 +1,28 @@
 import TodoItem from "./TodoItem";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { List } from "@mui/material";
 import TodoForm from "./TodoForm";
 import Nav from "./Nav";
 
-const initialData = [
-    { id: 1, text: "TodoList 만들기", completed: false },
-    { id: 2, text: "TodoList 추가하기", completed: false },
-    { id: 3, text: "TodoList 삭제하기", completed: true },
-]
+
+// getInitialData 함수를 이용하여 로컬 스토리지에 저장된 아이템들을 가지고올 수 있음
+// 비어있을 경우 빈 배열 반환
+const getInitialData = () => {
+    const data = JSON.parse(localStorage.getItem("todos"));
+    if(!data) return [];
+    return data;
+}
 export default function TodoList() {
     // useState 를 이용하여 상태를 간편하게 변경할 수 있으며,
     // 컴포넌트가 렌더링 될때마다 새로운 상태로 업데이트할 수 있음
-    const [todos, setTodos] = useState(initialData);
+    const [todos, setTodos] = useState(getInitialData());
+
+
+    // useEffect 를 이용하여 의존성을 추가한다.
+    // todos에 변동이 있을 때마다, localStorage에 setItem을 해준다.
+    useEffect (() => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos]);
 
     // filter 기능을 이용한 삭제 기능 추가
     // id가 같은것을 제외하고 다시 보여준다.
