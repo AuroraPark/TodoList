@@ -6,8 +6,9 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
+import { PropaneSharp } from '@mui/icons-material';
 
-export default function MenuAppBar({addForm}) {
+export default function MenuAppBar({toggleVisible}) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -32,7 +33,7 @@ export default function MenuAppBar({addForm}) {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="inherit"
-                onClick={addForm}
+                onClick={toggleVisible}
               >
                 <AddIcon />
               </IconButton>

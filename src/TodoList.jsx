@@ -35,10 +35,18 @@ export default function TodoList() {
             })
         })
     }
-    // Nav의 + 버튼을 눌러 생성 TodoForm 을 추가할 수 있다.
-    const [form, setForm] = useState([]);
-    const addForm = () => {
-        setForm(form.concat(<TodoForm />));
+    // Nav의 + 버튼을 눌러 생성 TodoForm 을 보여주어, 추가할 수 있다.
+    const [visible, setVisible] = useState(false);
+    const toggleVisible = () => {
+        setVisible(!visible);
+    }
+
+    // 입력 받은 text 값을 todos에 추가한다.
+    // crypto.randomUUID로 랜덤 아이디를 만들어준다.
+    const saveTodo = (text) => {
+        setTodos((prevTodos) => {
+            return [...prevTodos, {id: crypto.randomUUID(), text: text, completed: false}];
+        });
     }
 
     return (
@@ -50,8 +58,8 @@ export default function TodoList() {
         // Nav의 + 버튼을 눌러 addForm을 실행한다.
         // 생성된 빈 Form은 {form}위치에 배치된다.
         <>
-        <Nav addForm={() => addForm()}/>
-        {form}
+        <Nav toggleVisible={toggleVisible}/>
+        {visible && <TodoForm saveTodo={saveTodo} toggleVisible={toggleVisible}/>}
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {todos.map((todo) =>
                 <TodoItem key={todo.id} todo={todo}
