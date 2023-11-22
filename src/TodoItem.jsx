@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-export default function TodoItem({ todo }) {
+export default function TodoItem({ todo ,deleteTodo}) {
     // TodoList에서 생성된 initialData array를 하나씩 {todo}로 받아와
     // TodoItem 컴포넌트를 생성한다.
     
@@ -21,9 +21,11 @@ export default function TodoItem({ todo }) {
         // 모든 부품들은 import 문을 작성해 주어야 한다.
         // Checkbox의 값은 checked 속성에서 지정할수 있다.{todo.completed}
         // ListItemText의 값은 primary 속성에서 지정할 수 있다.{todo.text}
+        // 삭제기능: TodoList에서 deleteTodo()를 이용하여 OnClick 이벤트에 적용시켜준다.
+        
         <ListItem
             secondaryAction={
-                <IconButton edge="end" aria-label="delete" >
+                <IconButton edge="end" aria-label="delete" onClick={deleteTodo} >
                     <DeleteIcon />
                 </IconButton>
             }

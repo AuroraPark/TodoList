@@ -12,6 +12,15 @@ export default function TodoList(){
     // 컴포넌트가 렌더링 될때마다 새로운 상태로 업데이트할 수 있음
     const [todos, setTodos] = useState(initialData);
 
+    // filter 기능을 이용한 삭제 기능 추가
+    // id가 같은것을 제외하고 다시 보여준다.
+    const deleteTodo = (id)=>{
+        setTodos((prevTodos) =>
+        {
+            return prevTodos.filter((t) => t.id !== id)
+        });
+    }
+
     return (
         // Material UI의 List를 이용하여 쉽게 리스트를 가지고옴.
         // map을 이용하여 todos의 array를 하나씩 불러와 TodoItem으로 보내준다.
@@ -19,7 +28,7 @@ export default function TodoList(){
         // Todo Item에서는 todo 값을 {todo}로 받아 사용해야 한다.
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {todos.map((todo) =>
-            <TodoItem key={todo.id} todo={todo} />
+            <TodoItem key={todo.id} todo={todo} deleteTodo={() =>deleteTodo(todo.id)}/>
         )}
             
         </List>
